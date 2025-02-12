@@ -5,9 +5,9 @@ import { useChatRuntime } from "@assistant-ui/react-ai-sdk";
 import { Thread } from "@/components/assistant-ui/thread";
 import ToolUIWrapper from "@/components/assistant-ui/tool-ui";
 
-export const Assistant = () => {
+export const Assistant = ({ owner, repo }: { owner: string; repo: string }) => {
   const runtime = useChatRuntime({
-    api: "/api/chat",
+    api: `/api/chat?owner=${owner}&repo=${repo}`,
   });
 
   return (
