@@ -1,16 +1,18 @@
-import { google } from "@ai-sdk/google";
-import { streamText } from "ai";
+import { mastra } from "@/mastra";
 
-export const runtime = "edge";
-export const maxDuration = 30;
+// export const runtime = "edge";
+// export const maxDuration = 30;
 
 export async function POST(req: Request) {
   const { messages } = await req.json();
 
-  const result = streamText({
-    model: google("gemini-2.0-flash-001"),
-    messages,
-  });
+  const agent = mastra.getAgent("agent");
 
-  return result.toDataStreamResponse();
+  try {
+    const res = await agent.stream(messages);
+    return res.toDataStreamResponse();
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 }
