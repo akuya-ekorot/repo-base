@@ -1,21 +1,7 @@
-"use client";
-
-import { AssistantRuntimeProvider } from "@assistant-ui/react";
-import { useChatRuntime } from "@assistant-ui/react-ai-sdk";
-import { Thread } from "@/components/assistant-ui/thread";
+import { Assistant } from "./assistant";
 
 const Page = () => {
-  const runtime = useChatRuntime({
-    api: "/api/chat",
-  });
-
-  return (
-    <AssistantRuntimeProvider runtime={runtime}>
-      <div className="h-dvh">
-        <Thread />
-      </div>
-    </AssistantRuntimeProvider>
-  );
+  return <Assistant />;
 };
 
 export default Page;
