@@ -1,1 +1,0 @@
-ALTER TYPE "public"."docs_processing_status_enum" ADD VALUE 'not_started' BEFORE 'triggered';
