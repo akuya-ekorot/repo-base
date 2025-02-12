@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@ai-sdk/google": "^1.1.11",
-    "@ai-sdk/openai": "^1.1.9",
     "@assistant-ui/react": "^0.7.77",
     "@assistant-ui/react-ai-sdk": "^0.7.15",
     "@assistant-ui/react-markdown": "^0.7.20",
