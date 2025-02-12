@@ -1,20 +1,25 @@
+import { gh } from "@/lib/utils";
 import { Tool } from "@mastra/core/tools";
-import { Octokit } from "octokit";
 import { z } from "zod";
 
 export const getFilePaths = new Tool({
   id: "getFilePaths",
   description: "Get all file paths from the GitHub repository",
   inputSchema: z.object({
-    owner: z.string(),
-    repo: z.string(),
-    tree_sha: z.string(),
+    owner: z
+      .string()
+      .describe("The owner of the repository. As facebook in facebook/react"),
+    repo: z
+      .string()
+      .describe("The name of the repository. As react in facebook/react"),
+    tree_sha: z
+      .string()
+      .describe("SHA or branch to start listing commits from")
+      .default("main"),
   }),
   outputSchema: z.array(z.string()),
   execute: async ({ context }) => {
     const { owner, repo, tree_sha } = context;
-
-    const gh = new Octokit();
 
     const getTreeResponse = await gh.rest.git.getTree({
       owner,

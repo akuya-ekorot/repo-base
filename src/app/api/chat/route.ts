@@ -9,7 +9,10 @@ export async function POST(req: Request) {
   const agent = mastra.getAgent("agent");
 
   try {
-    const res = await agent.stream(messages);
+    const res = await agent.stream(messages, {
+      toolChoice: "auto",
+      maxSteps: 10,
+    });
     return res.toDataStreamResponse();
   } catch (error) {
     console.error(error);
