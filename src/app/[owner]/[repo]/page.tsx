@@ -1,7 +1,10 @@
-import { EnsureThread } from "@/components/custom/EnsureThread";
-import { RepoThread } from "@/components/custom/RepoThread";
-import { mastra } from "@/mastra";
 import { cookies } from "next/headers";
+
+import { mastra } from "@/mastra";
+import { RepoThread } from "@/components/custom/RepoThread";
+import { EnsureThread } from "@/components/custom/EnsureThread";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { NewThreadWithRepoButton } from "@/components/custom/NewThreadButton";
 
 export default async function Page({
   params,
@@ -22,19 +25,35 @@ export default async function Page({
   );
 
   return (
-    <EnsureThread
-      resourceId={resourceId}
-      owner={owner}
-      repo={repo}
-      threads={threads}
-    >
-      {!!threads?.length && (
-        <ul className="space-y-4">
-          {threads.map((thread) => (
-            <RepoThread key={thread.id} thread={thread} />
-          ))}
-        </ul>
-      )}
-    </EnsureThread>
+    <div className="container mx-auto py-8">
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle>
+            Your chat history for {owner}/{repo}
+          </CardTitle>
+          <NewThreadWithRepoButton
+            owner={owner}
+            repo={repo}
+            resourceId={resourceId}
+          />
+        </CardHeader>
+        <CardContent>
+          <EnsureThread
+            resourceId={resourceId}
+            owner={owner}
+            repo={repo}
+            threads={threads}
+          >
+            {!!threads?.length && (
+              <ul className="space-y-4">
+                {threads.map((thread) => (
+                  <RepoThread key={thread.id} thread={thread} />
+                ))}
+              </ul>
+            )}
+          </EnsureThread>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

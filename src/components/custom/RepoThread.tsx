@@ -44,7 +44,7 @@ export const RepoThread: FC<RepoThreadProps> = async ({ thread }) => {
       >
         <Button variant="outline" size="sm">
           <MessageSquare className="w-4 h-4 mr-2" />
-          Continue Chat
+          Continue chat
           <ArrowRight className="w-4 h-4 ml-2" />
         </Button>
       </Link>
