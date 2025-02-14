@@ -3,6 +3,7 @@
 import { z } from "zod";
 import { actionClient } from ".";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 const RepositoryInputSchema = z
   .string()
@@ -57,6 +58,12 @@ export const validateRepositoryInput = actionClient
     actionName: "validateRepositoryInput",
   })
   .action(async ({ parsedInput }) => {
+    const resourceId = (await cookies()).get("resourceId");
+
+    console.log(resourceId);
+
+    if (!resourceId) redirect("/");
+
     const {
       input: { owner, repo },
     } = parsedInput;

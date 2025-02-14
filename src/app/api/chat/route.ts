@@ -1,14 +1,16 @@
 import { mastra } from "@/mastra";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const searchParams = req.nextUrl.searchParams;
-  const owner = searchParams.get("owner");
-  const repo = searchParams.get("repo");
+  if (!mastra.memory) throw new Error("Mastra memory not set up");
 
-  if (!owner || !repo) throw new Error("Repository information not available");
+  const resourceId = (await cookies()).get("resourceId")?.value;
 
-  const { messages } = await req.json();
+  if (!resourceId) redirect("/");
+
+  const { messages, owner, repo, threadId } = await req.json();
 
   const agent = mastra.getAgent("agent");
 
@@ -20,8 +22,8 @@ export async function POST(req: NextRequest) {
           content: `The repository owner is ${owner} and the repository name is ${repo}`,
         },
       ],
-      resourceId: "36d45027-f9bd-4a4c-9986-764a3c62dbd3",
-      threadId: "256c7e48-849b-4e64-811b-801f47f3c356",
+      resourceId,
+      threadId,
       toolChoice: "auto",
       maxSteps: 10,
     });
