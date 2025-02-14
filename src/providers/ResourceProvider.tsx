@@ -13,9 +13,8 @@ export const ResourceProvider: FC<
     if (!resourceId) {
       execute();
     }
-  }, [execute, resourceId]);
-
-  if (!resourceId) return null;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return <>{children}</>;
 };

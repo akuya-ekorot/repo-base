@@ -1,14 +1,9 @@
 import { mastra } from "@/mastra";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
   if (!mastra.memory) throw new Error("Mastra memory not set up");
-
-  const resourceId = (await cookies()).get("resourceId")?.value;
-
-  if (!resourceId) redirect("/");
+  const resourceId = req.cookies.get("resourceId")!.value;
 
   const { messages, owner, repo, threadId } = await req.json();
 
