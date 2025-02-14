@@ -25,35 +25,35 @@ export default async function Page({
   );
 
   return (
-    <div className="container mx-auto py-8">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>
-            Your chat history for {owner}/{repo}
-          </CardTitle>
-          <NewThreadWithRepoButton
-            owner={owner}
-            repo={repo}
-            resourceId={resourceId}
-          />
-        </CardHeader>
-        <CardContent>
-          <EnsureThread
-            resourceId={resourceId}
-            owner={owner}
-            repo={repo}
-            threads={threads}
-          >
-            {!!threads?.length && (
+    <EnsureThread
+      resourceId={resourceId}
+      owner={owner}
+      repo={repo}
+      threads={threads}
+    >
+      {!!threads?.length && (
+        <div className="container mx-auto py-8">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <CardTitle>
+                Your chat history for {owner}/{repo}
+              </CardTitle>
+              <NewThreadWithRepoButton
+                owner={owner}
+                repo={repo}
+                resourceId={resourceId}
+              />
+            </CardHeader>
+            <CardContent>
               <ul className="space-y-4">
                 {threads.map((thread) => (
                   <RepoThread key={thread.id} thread={thread} />
                 ))}
               </ul>
-            )}
-          </EnsureThread>
-        </CardContent>
-      </Card>
-    </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+    </EnsureThread>
   );
 }
