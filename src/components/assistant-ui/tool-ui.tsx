@@ -1,15 +1,16 @@
 "use client";
 
-import { makeAssistantToolUI } from "@assistant-ui/react";
-import { FC, ReactNode } from "react";
 import { z } from "zod";
-import { Card, CardContent } from "../ui/card";
+import type { FC, ReactNode } from "react";
+import { makeAssistantToolUI } from "@assistant-ui/react";
 import {
   CheckCircle,
   LoaderCircle,
   OctagonX,
   TriangleAlert,
 } from "lucide-react";
+
+import { Card, CardContent } from "../ui/card";
 
 type ToolStatus = "running" | "complete" | "incomplete" | "requires-action";
 
@@ -21,11 +22,22 @@ const statusIconMap: Record<ToolStatus, ReactNode> = {
 };
 
 type GetFileContentArgs = z.infer<typeof GetFileContentArgsSchema>;
+type GetFileContentResult = z.infer<typeof GetFileContentResultSchema>;
 type GetFilePathsArgs = z.infer<typeof GetFilePathsArgsSchema>;
+type GetFilePathsResult = string[];
 type GetRepositoryIssuesArgs = z.infer<typeof GetRepositoryIssuesArgsSchema>;
+type GetRepositoryIssuesResult = z.infer<
+  typeof GetRepositoryIssuesResultSchema
+>;
 type GetRepositoryCommitsArgs = z.infer<typeof GetRepositoryCommitsArgsSchema>;
+type GetRepositoryCommitsResult = z.infer<
+  typeof GetRepositoryCommitsResultSchema
+>;
 type GetRepositoryPullRequestsArgs = z.infer<
   typeof GetRepositoryPullRequestsArgsSchema
+>;
+type GetRepositoryPullRequestsResult = z.infer<
+  typeof GetRepositoryPullRequestsResultSchema
 >;
 
 type ToolArgs =
@@ -109,8 +121,6 @@ const GetFilePathsArgsSchema = z.object({
     .default("main"),
 });
 
-type GetFilePathsResult = string[];
-
 export const GetFilePathsToolUI = makeAssistantToolUI<
   GetFilePathsArgs,
   GetFilePathsResult
@@ -156,8 +166,6 @@ const GetFileContentResultSchema = z.union([
     })
     .describe("The error/failed object"),
 ]);
-
-type GetFileContentResult = z.infer<typeof GetFileContentResultSchema>;
 
 export const GetFileContentToolUI = makeAssistantToolUI<
   GetFileContentArgs,
@@ -279,10 +287,6 @@ const GetRepositoryIssuesResultSchema = z.union([
   }),
 ]);
 
-type GetRepositoryIssuesResult = z.infer<
-  typeof GetRepositoryIssuesResultSchema
->;
-
 export const GetRepositoryIssuesToolUI = makeAssistantToolUI<
   GetRepositoryIssuesArgs,
   GetRepositoryIssuesResult
@@ -362,10 +366,6 @@ const GetRepositoryCommitsResultSchema = z.union([
     .describe("The error/failed object"),
 ]);
 
-type GetRepositoryCommitsResult = z.infer<
-  typeof GetRepositoryCommitsResultSchema
->;
-
 export const GetRepositoryCommitsToolUI = makeAssistantToolUI<
   GetRepositoryCommitsArgs,
   GetRepositoryCommitsResult
@@ -438,10 +438,6 @@ const GetRepositoryPullRequestsResultSchema = z.union([
   }),
 ]);
 
-type GetRepositoryPullRequestsResult = z.infer<
-  typeof GetRepositoryPullRequestsResultSchema
->;
-
 export const GetRepositoryPullRequestsToolUI = makeAssistantToolUI<
   GetRepositoryPullRequestsArgs,
   GetRepositoryPullRequestsResult
@@ -469,6 +465,14 @@ const ToolUIWrapper: FC = () => {
       <GetRepositoryPullRequestsToolUI />
     </>
   );
+};
+
+export const ToolsByNameComponents = {
+  getFilePaths: GetFilePathsToolUI,
+  getFileContent: GetFileContentToolUI,
+  getRepositoryIssues: GetRepositoryIssuesToolUI,
+  getRepositoryCommits: GetRepositoryCommitsToolUI,
+  getRepositoryPullRequests: GetRepositoryPullRequestsToolUI,
 };
 
 export default ToolUIWrapper;

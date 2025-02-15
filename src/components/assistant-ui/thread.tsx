@@ -22,6 +22,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { MarkdownText } from "@/components/assistant-ui/markdown-text";
 import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
+import { ToolsByNameComponents } from "./tool-ui";
 
 export const Thread: FC = () => {
   return (
@@ -210,7 +211,12 @@ const AssistantMessage: FC = () => {
       </Avatar>
 
       <div className="text-foreground max-w-[calc(var(--thread-max-width)*0.8)] break-words leading-7 col-span-2 col-start-2 row-start-1 my-1.5">
-        <MessagePrimitive.Content components={{ Text: MarkdownText }} />
+        <MessagePrimitive.Content
+          components={{
+            Text: MarkdownText,
+            tools: { by_name: ToolsByNameComponents },
+          }}
+        />
       </div>
 
       <AssistantActionBar />
