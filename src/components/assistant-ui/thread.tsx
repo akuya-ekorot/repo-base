@@ -23,6 +23,7 @@ import { ToolsByNameComponents } from "./tool-ui";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { MarkdownText } from "@/components/assistant-ui/markdown-text";
 import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
+import { MastraIcon } from "../icons/mastra-icon";
 
 export const Thread: FC = () => {
   return (
@@ -76,10 +77,12 @@ const ThreadWelcome: FC = () => {
       <div className="max-w-[var(--thread-max-width)] flex w-full grow flex-col">
         <div className="flex w-full grow flex-col items-center justify-center">
           <Avatar>
-            <AvatarFallback>RB</AvatarFallback>
+            <AvatarFallback>
+              <MastraIcon />
+            </AvatarFallback>
           </Avatar>
           <p className="mt-4 font-medium">
-            What would you like to learn about the repo today
+            Ready to explore this repository together?
           </p>
         </div>
         <ThreadWelcomeSuggestions />
@@ -92,23 +95,23 @@ const ThreadWelcomeSuggestions: FC = () => {
   return (
     <div className="mt-3 flex flex-wrap w-full items-stretch justify-center gap-4">
       <ThreadPrimitive.Suggestion
-        className="hover:bg-muted/80 flex max-w-sm grow basis-0 flex-col items-center justify-center border p-3 transition-colors ease-in"
-        prompt="Summarize the main functionality of this repository."
+        className="hover:bg-muted/80 flex max-w-sm grow basis-0 flex-col items-center justify-center border p-3 transition-colors ease-in rounded-lg"
+        prompt="What's changed in recent commits?"
         method="replace"
         autoSend
       >
         <span className="line-clamp-2 text-ellipsis text-sm font-semibold">
-          Summarize the main functionality of this repository.
+          What&apos;s changed in recent commits?
         </span>
       </ThreadPrimitive.Suggestion>
       <ThreadPrimitive.Suggestion
-        className="hover:bg-muted/80 flex max-w-sm grow basis-0 flex-col items-center justify-center  border p-3 transition-colors ease-in"
-        prompt="What are the recent bug fixes and improvements?"
+        className="hover:bg-muted/80 flex max-w-sm grow basis-0 flex-col items-center justify-center  border p-3 transition-colors ease-in rounded-lg"
+        prompt="Guide me through this codebase"
         method="replace"
         autoSend
       >
         <span className="line-clamp-2 text-ellipsis text-sm font-semibold">
-          What are the recent bug fixes and improvements?
+          Guide me through this codebase
         </span>
       </ThreadPrimitive.Suggestion>
     </div>

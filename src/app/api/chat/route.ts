@@ -28,6 +28,7 @@ export async function POST(req: NextRequest) {
         title,
         metadata: { owner, repo, nextThread: false },
       });
+
     }
   }
 
