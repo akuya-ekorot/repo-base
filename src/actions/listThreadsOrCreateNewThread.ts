@@ -16,9 +16,10 @@ export const listThreadsOrCreateNewThread = actionClient
   .action(async ({ parsedInput, ctx }) => {
     const { owner, repo } = parsedInput;
     const resourceId = (await cookies()).get("resourceId")?.value;
-    if (!resourceId) throw new Error("Could not create thread");
 
-    const resourceThreads = await ctx.mastra.memory?.getThreadsByResourceId({
+    if (!resourceId) throw new Error("No resourceId available to get thread");
+
+    const resourceThreads = await ctx.memory.getThreadsByResourceId({
       resourceId,
     });
 
@@ -27,18 +28,18 @@ export const listThreadsOrCreateNewThread = actionClient
         thread.metadata?.owner === owner && thread.metadata?.repo === repo,
     );
 
-    if (!threads || threads.length === 0) {
-      const thread = await ctx.mastra.memory?.createThread({
-        resourceId,
-        metadata: { owner, repo },
-      });
-
-      if (thread) {
-        redirect(`/${owner}/${repo}/${thread?.id}`);
-      } else {
-        throw new Error("Could not create thread");
-      }
-    } else {
+    if (threads) {
       redirect(`/${owner}/${repo}`);
     }
+
+    const thread = await ctx.memory.createThread({
+      resourceId,
+      metadata: { owner, repo },
+    });
+
+    if (thread) {
+      redirect(`/${owner}/${repo}/${thread?.id}`);
+    }
+
+    throw new Error("Could not create thread");
   });

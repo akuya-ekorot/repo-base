@@ -18,18 +18,18 @@ export function SuggestedRepoButton({
 }) {
   const { execute, isPending } = useAction(listThreadsOrCreateNewThread);
 
+  console.log("suggested repo button", { owner, repo });
+
   return (
     <Card
-      onClick={() => execute({ owner: owner, repo: repo })}
+      onClick={() => execute({ owner, repo })}
       className="flex flex-col h-[140px] transition-all hover:border-primary hover:shadow-md cursor-pointer rounded-md"
     >
       <CardHeader className="grow">
         <CardTitle className="flex items-center gap-2 text-base truncate">
-          {isPending ? (
-            <LoaderCircle className="animate-spin shrink-0 size-4" />
-          ) : (
-            <Github className="size-4 shrink-0" />
-          )}
+          {isPending
+            ? <LoaderCircle className="animate-spin shrink-0 size-4" />
+            : <Github className="size-4 shrink-0" />}
           <span className="truncate">
             {owner}/{repo}
           </span>

@@ -1,8 +1,9 @@
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
-import { mastra } from "@/mastra";
 import { Assistant } from "@/app/assistant";
+import { memory } from "@/mastra/memory";
+import { ThreadMessageLike } from "@assistant-ui/react";
 
 export default async function Page({
   params,
@@ -13,23 +14,17 @@ export default async function Page({
   const { threadId } = await params;
 
   const [queryResponse, thread] = await Promise.all([
-    mastra.memory?.query({ threadId }),
-    mastra.memory?.getThreadById({ threadId }),
+    memory.query({ threadId }),
+    memory.getThreadById({ threadId }),
   ]);
 
   if (!thread || !resourceId) notFound();
 
-  const initialMessages = (queryResponse?.uiMessages ?? []).map((m) => ({
-    ...m,
-    content:
-      m.content === "" && !!m.toolInvocations?.length
-        ? m.toolInvocations?.map((tool) => ({ ...tool, type: "tool-call" }))
-        : m.content,
-  }));
+  const initialMessages = (queryResponse?.uiMessages ??
+    []) as ThreadMessageLike[];
 
   return (
     <Assistant
-      //@ts-expect-error type mismatch
       initialMessages={initialMessages}
     />
   );

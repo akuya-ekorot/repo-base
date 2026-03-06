@@ -11,9 +11,9 @@ export const createThread = actionClient
   .action(async ({ ctx, parsedInput: { owner, repo } }) => {
     const resourceId = (await cookies()).get("resourceId")?.value;
 
-    if (!resourceId) throw new Error("Could not create thread");
+    if (!resourceId) throw new Error("No resourceId found");
 
-    const thread = await ctx.mastra.memory?.createThread({
+    const thread = await ctx.memory.createThread({
       resourceId,
       metadata: { owner, repo },
     });

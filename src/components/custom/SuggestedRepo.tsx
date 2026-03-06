@@ -11,10 +11,12 @@ export async function SuggestedRepo({
 }) {
   let description: string | null = null;
 
+  console.log("suggested repo", { owner, repo });
+
   try {
     const repoRes = await gh.rest.repos.get({ owner, repo });
     description = repoRes.data.description;
-  } catch {}
+  } catch { }
 
   return (
     <SuggestedRepoButton owner={owner} repo={repo}>

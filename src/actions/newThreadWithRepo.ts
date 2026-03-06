@@ -16,7 +16,7 @@ export const newThreadWithRepo = actionClient
   .action(async ({ parsedInput, ctx }) => {
     const { resourceId, owner, repo } = parsedInput;
 
-    const thread = await ctx.mastra.memory?.createThread({
+    const thread = await ctx.memory?.createThread({
       resourceId,
       metadata: { owner, repo },
     });

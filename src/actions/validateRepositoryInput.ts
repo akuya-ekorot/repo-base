@@ -25,7 +25,7 @@ const RepositoryInputSchema = z
           return { owner: pathSegments[0], repo: pathSegments[1] };
         }
       }
-    } catch {}
+    } catch { }
 
     const parts = val.split("/").filter(Boolean);
     if (parts.length === 2) {
@@ -65,6 +65,7 @@ export const validateRepositoryInput = actionClient
       redirect: shouldRedirect,
     } = parsedInput;
     try {
+      console.log({ owner, repo });
       await gh.rest.repos.get({ owner, repo });
     } catch (error) {
       if (error instanceof Error) {
@@ -74,9 +75,10 @@ export const validateRepositoryInput = actionClient
     }
 
     const resourceId = (await cookies()).get("resourceId")?.value;
+
     if (!resourceId) throw new Error("Could not create thread");
 
-    const resourceThreads = await ctx.mastra.memory?.getThreadsByResourceId({
+    const resourceThreads = await ctx.memory.getThreadsByResourceId({
       resourceId,
     });
 
@@ -85,8 +87,10 @@ export const validateRepositoryInput = actionClient
         thread.metadata?.owner === owner && thread.metadata?.repo === repo,
     );
 
+    console.log("validating", threads);
+
     if (!threads || threads.length === 0) {
-      const thread = await ctx.mastra.memory?.createThread({
+      const thread = await ctx.memory.createThread({
         resourceId,
         metadata: { owner, repo },
       });

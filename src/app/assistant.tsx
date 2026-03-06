@@ -2,17 +2,17 @@
 
 import { type FC } from "react";
 import { useParams } from "next/navigation";
-import type { AiMessageType } from "@mastra/core";
 import { useChatRuntime } from "@assistant-ui/react-ai-sdk";
-import { AssistantRuntimeProvider } from "@assistant-ui/react";
+import {
+  AssistantRuntimeProvider,
+  ThreadMessageLike,
+} from "@assistant-ui/react";
 
 import { Thread } from "@/components/assistant-ui/thread";
 import ToolUIWrapper from "@/components/assistant-ui/tool-ui";
 
 interface AssistantProps {
-  initialMessages: Array<
-    AiMessageType & { role: Exclude<AiMessageType["role"], "data"> }
-  >;
+  initialMessages: ThreadMessageLike[];
 }
 
 export const Assistant: FC<AssistantProps> = ({ initialMessages }) => {

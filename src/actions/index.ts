@@ -1,4 +1,5 @@
 import { mastra } from "@/mastra";
+import { memory } from "@/mastra/memory";
 import {
   createSafeActionClient,
   DEFAULT_SERVER_ERROR_MESSAGE,
@@ -15,4 +16,4 @@ export const actionClient = createSafeActionClient({
     return DEFAULT_SERVER_ERROR_MESSAGE;
   },
   defineMetadataSchema: () => z.object({ actionName: z.string() }),
-}).use(({ next }) => next({ ctx: { mastra } }));
+}).use(({ next }) => next({ ctx: { mastra, memory } }));

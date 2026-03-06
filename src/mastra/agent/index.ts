@@ -1,20 +1,21 @@
-import { google } from "@ai-sdk/google";
 import { Agent } from "@mastra/core/agent";
-
-import { memory } from "../memory";
+import { storage } from "../memory";
 import { instructions } from "./instructions";
 import { getFilePaths } from "../tools/getFilePaths";
 import { getFileContent } from "../tools/getFileContent";
 import { getRepositoryIssues } from "../tools/getRepositoryIssues";
 import { getRepositoryCommits } from "../tools/getRepositoryCommits";
 import { getRepositoryPullRequests } from "../tools/getRepositoryPullRequests";
+import { Memory } from "@mastra/memory";
+import { openrouter } from "@openrouter/ai-sdk-provider";
 
 export const agent = new Agent({
   name: "agent",
   instructions,
-  //@ts-expect-error incompatible logger types
-  memory,
-  model: google("gemini-2.0-flash-001"),
+  memory: new Memory({
+    storage,
+  }),
+  model: openrouter("openai/gpt-5"),
   tools: {
     getFilePaths,
     getFileContent,

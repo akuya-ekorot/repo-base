@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 
-import { mastra } from "@/mastra";
+import { memory } from "@/mastra/memory";
 
 export default async function Page({
   params,
@@ -15,22 +15,21 @@ export default async function Page({
 
   if (!resourceId) return <div>No cookie</div>; // should not happen
 
-  const resourceThreads = await mastra.memory?.getThreadsByResourceId({
+  const resourceThreads = await memory.getThreadsByResourceId({
     resourceId,
   });
 
-  const repoThreads =
-    resourceThreads?.filter(
-      (thread) =>
-        thread.metadata?.owner === owner && thread.metadata?.repo === repo,
-    ) ?? [];
+  const repoThreads = resourceThreads?.filter(
+    (thread) =>
+      thread.metadata?.owner === owner && thread.metadata?.repo === repo,
+  ) ?? [];
 
   const nextThread = repoThreads.find((t) => !!t.metadata?.nextThread);
 
   let threadId: string;
 
   if (!nextThread) {
-    const thread = await mastra.memory?.createThread({
+    const thread = await memory.createThread({
       resourceId,
       metadata: { owner, repo, nextThread: true },
     });
